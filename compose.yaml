@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+    postgres:
+        image: 'postgres:alpine'
+        env_file: .env
+        ports:
+            - "43293:5432"
