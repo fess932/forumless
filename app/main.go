@@ -1,7 +1,14 @@
 package main
 
-import "log"
+import (
+	"forumless/app/forum"
+	"log"
+)
 
 func main() {
 	log.Print("lel")
+}
+
+type server struct {
+	forum forum.Forum
 }

@@ -10,3 +10,6 @@ migration-create:
 
 migration-up:
 	migrate -database ${POSTGRESQL_URL} -path db/migrations up
+
+migration-down:
+	migrate -database ${POSTGRESQL_URL} -path db/migrations down
