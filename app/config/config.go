@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	Forums []Forum
+	Forums []Forum `toml:"forum"`
 }
 
 type Forum struct {
@@ -22,8 +22,6 @@ func New() Config {
 	if _, err := toml.DecodeFile("app/config/config.toml", &conf); err != nil {
 		log.Fatal(err)
 	}
-
-	log.Println(conf)
 
 	return conf
 }

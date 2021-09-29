@@ -3,6 +3,7 @@ package main
 import (
 	"forumless/app/config"
 	"forumless/app/forum"
+	"log"
 	"sync"
 )
 
@@ -32,6 +33,7 @@ func (s server) Run() {
 		f := f // hack for save var in closure
 		go func(f forum.Forum) {
 			f.Run()
+			log.Println("forum done:", f.Name)
 			s.Done()
 		}(f)
 	}
