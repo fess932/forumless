@@ -1,8 +1,12 @@
 package forum
 
 import (
+	"fmt"
 	"forumless/app/models"
 	"log"
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 type Repo interface {
@@ -22,7 +26,19 @@ func New(host, name, port string, repo Repo) *Forum {
 }
 
 func (f Forum) Run() {
-	log.Println("run fourm", f.Name)
+	r := chi.NewRouter()
+
+	{
+		r.Get("/")
+
+		r.Post("/post", f.CreatePostHandler)
+		r.Post("/user", f.CreateUserHandler)
+	}
+
+	host := fmt.Sprintf(":%s", f.Port)
+
+	log.Printf("forum %s started at http://0.0.0.0:%s", f.Name, f.Port)
+	log.Fatal(http.ListenAndServe(host, r))
 }
 
 func (f Forum) CreatePost(u models.User, p models.Post) {
