@@ -1,11 +1,14 @@
 package main
 
 import (
-	"forumless/app/config"
-	"forumless/app/forum"
-	"forumless/app/repo/mock/mock_forum"
 	"log"
 	"sync"
+
+	"github.com/golang/mock/gomock"
+
+	"forumless/app/config"
+	"forumless/app/forum"
+	"forumless/app/repo/mock"
 )
 
 func main() {
@@ -15,7 +18,8 @@ func main() {
 func NewServer(conf config.Config) *server {
 
 	// repo := postgres.New("conn string")
-	repo := mock_forum.NewMockRepo()
+
+	repo := mock.NewMockRepo(&gomock.Controller{})
 
 	forums := []*forum.Forum{}
 

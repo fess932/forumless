@@ -1,9 +1,12 @@
 package forum
 
-import "log"
+import (
+	"forumless/app/models"
+	"log"
+)
 
 type Repo interface {
-	GetName() string
+	CreatePost(models.User, models.Post) error
 }
 
 type Forum struct {
@@ -22,6 +25,14 @@ func (f Forum) Run() {
 	log.Println("run fourm", f.Name)
 }
 
-func (f Forum) GetName() {
-	f.repo.GetName()
+func (f Forum) CreatePost(u models.User, p models.Post) {
+	if err := f.repo.CreatePost(u, p); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (f Forum) CreateUser(u models.User, p models.Post) {
+	if err := f.repo.CreatePost(u, p); err != nil {
+		log.Fatal(err)
+	}
 }
