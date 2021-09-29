@@ -13,3 +13,6 @@ migration-up:
 
 migration-down:
 	migrate -database ${POSTGRESQL_URL} -path db/migrations down
+
+mock:
+	mockgen.exe -source .\app\forum\forum.go -destination .\app\repo\mock\forum.go
