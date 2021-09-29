@@ -1,0 +1,9 @@
+[[forum]]
+name = "test forum"
+host = "test-forum.com"
+port = "9090"
+
+[[forum]]
+name = "test forum 2"
+host = "test-forum2.com"
+port = "9091"
