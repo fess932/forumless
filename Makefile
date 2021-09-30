@@ -1,4 +1,5 @@
 include .env
+.DEFAULT_GOAL := start
 
 PROJECTNAME=$(shell basename "$(PWD)")
 
