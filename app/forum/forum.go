@@ -29,8 +29,7 @@ func (f Forum) Run() {
 	r := chi.NewRouter()
 
 	{
-		r.Get("/")
-
+		r.Get("/", f.MainHandler)
 		r.Post("/post", f.CreatePostHandler)
 		r.Post("/user", f.CreateUserHandler)
 	}

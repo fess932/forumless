@@ -1,15 +1,18 @@
 package main
 
 import (
+	"forumless/app/repo/postgres"
 	"log"
 	"sync"
 
-	"github.com/golang/mock/gomock"
+	//"github.com/golang/mock/gomock"
 
 	"forumless/app/config"
 	"forumless/app/forum"
-	"forumless/app/repo/mock"
+	//"forumless/app/repo/mock"
 )
+
+const PostgresqlUrl = "postgresql://postgres:example@localhost:43293/postgres?sslmode=disable"
 
 func main() {
 	NewServer(config.New()).Run()
@@ -17,11 +20,11 @@ func main() {
 
 func NewServer(conf config.Config) *server {
 
-	// repo := postgres.New("conn string")
+	repo := postgres.New(PostgresqlUrl)
 
-	repo := mock.NewMockRepo(&gomock.Controller{})
+	//repo := mock.NewMockRepo(&gomock.Controller{})
 
-	forums := []*forum.Forum{}
+	var forums []*forum.Forum
 
 	for _, v := range conf.Forums {
 		forums = append(forums, forum.New(v.Host, v.Name, v.Port, repo))
@@ -35,7 +38,7 @@ type server struct {
 	sync.WaitGroup
 }
 
-func (s server) Run() {
+func (s *server) Run() {
 	s.Add(len(s.forums))
 
 	for _, f := range s.forums {

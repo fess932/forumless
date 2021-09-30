@@ -4,12 +4,12 @@ go 1.17
 
 require (
 	github.com/BurntSushi/toml v0.4.1
+	github.com/go-chi/chi/v5 v5.0.4
 	github.com/golang/mock v1.6.0
 	github.com/jackc/pgx/v4 v4.13.0
 )
 
 require (
-	github.com/go-chi/chi/v5 v5.0.4 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.10.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect

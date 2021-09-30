@@ -7,7 +7,7 @@ import (
 )
 
 func (f Forum) MainHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome to forum %s")
+	fmt.Fprintf(w, "Welcome to forum %s", f.Name)
 }
 
 func (f Forum) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
