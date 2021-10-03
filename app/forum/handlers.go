@@ -6,6 +6,7 @@ import (
 	"forumless/app/models"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func (f Forum) MainHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,7 +14,8 @@ func (f Forum) MainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type postReq struct {
-	Text string
+	ID   string `json:"id"`
+	Text string `json:"text"`
 }
 
 func (f Forum) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +25,16 @@ func (f Forum) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	f.CreatePost(models.User{}, models.Post{Text: p.Text})
+	log.Println(p)
+
+	s, err := strconv.Atoi(p.ID)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+
+	if err := f.CreatePost(models.User{ID: s}, models.Post{Text: p.Text}); err != nil {
+		http.Error(w, err.Error(), 500)
+	}
 }
 
 func (f Forum) CreateUserHandler(w http.ResponseWriter, r *http.Request) {

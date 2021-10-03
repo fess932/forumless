@@ -3,6 +3,7 @@ package forum
 import (
 	"fmt"
 	"forumless/app/models"
+	"forumless/app/user"
 	"log"
 	"net/http"
 
@@ -19,19 +20,27 @@ type Forum struct {
 	Port string
 
 	repo Repo
+
+	user *user.User
 }
 
-func New(host, name, port string, repo Repo) *Forum {
-	return &Forum{host, name, port, repo}
+func New(host, name, port string, repo Repo, user *user.User) *Forum {
+	return &Forum{host, name, port, repo, user}
 }
 
 func (f Forum) Run() {
 	r := chi.NewRouter()
 
+	// forum
 	{
 		r.Get("/", f.MainHandler)
 		r.Post("/post", f.CreatePostHandler)
 		r.Post("/user", f.CreateUserHandler)
+	}
+
+	// user
+	{
+		r.Post("/user", f.user.CreateUserHandler)
 	}
 
 	host := fmt.Sprintf(":%s", f.Port)
@@ -40,10 +49,8 @@ func (f Forum) Run() {
 	log.Fatal(http.ListenAndServe(host, r))
 }
 
-func (f Forum) CreatePost(u models.User, p models.Post) {
-	if err := f.repo.CreatePost(u, p); err != nil {
-		log.Fatal(err)
-	}
+func (f Forum) CreatePost(u models.User, p models.Post) error {
+	return f.repo.CreatePost(u, p)
 }
 
 func (f Forum) CreateUser(u models.User, p models.Post) {

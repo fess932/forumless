@@ -1,35 +1,33 @@
 package main
 
 import (
+	"forumless/app/user"
 	"log"
+	"os"
 	"sync"
 
-	//"github.com/golang/mock/gomock"
+	"github.com/joho/godotenv"
 
 	"forumless/app/config"
 	"forumless/app/forum"
-	"forumless/app/repo/mock"
-
-	"github.com/golang/mock/gomock"
-	//"forumless/app/repo/mock"
+	"forumless/app/repo/postgres"
 )
-
-const PostgresqlUrl = "postgresql://postgres:example@localhost:43293/postgres?sslmode=disable"
 
 func main() {
 	NewServer(config.New()).Run()
 }
 
 func NewServer(conf config.Config) *server {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(err)
+	}
 
-	// repo := postgres.New(PostgresqlUrl)
-
-	repo := mock.NewMockRepo(&gomock.Controller{})
+	repo := postgres.New(os.Getenv("POSTGRESQL_URL"))
+	up := user.New(repo)
 
 	var forums []*forum.Forum
-
 	for _, v := range conf.Forums {
-		forums = append(forums, forum.New(v.Host, v.Name, v.Port, repo))
+		forums = append(forums, forum.New(v.Host, v.Name, v.Port, repo, up))
 	}
 
 	return &server{forums: forums}
