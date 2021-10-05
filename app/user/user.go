@@ -1,17 +1,18 @@
 package user
 
-type Userer interface {
-	CreateUser(string) error
-}
+import (
+	"forumless/app/models"
+	"forumless/app/repo"
+)
 
 type User struct {
-	repo Userer
+	repo repo.Userer
 }
 
-func New(repo Userer) *User {
+func New(repo repo.Userer) *User {
 	return &User{repo}
 }
 
-func (u *User) CreateUser(name string) error {
-	return u.repo.CreateUser(name)
+func (u *User) CreateUser(user models.User) error {
+	return u.repo.CreateUser(user)
 }

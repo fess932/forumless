@@ -1,8 +1,12 @@
+// этот модуль является точкой входа для остальных модулей, подключает rest обработчики и является местом
+// регистрации новых пользователей
+
 package forum
 
 import (
 	"fmt"
 	"forumless/app/models"
+	"forumless/app/repo"
 	"forumless/app/user"
 	"log"
 	"net/http"
@@ -10,21 +14,17 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-type Repo interface {
-	CreatePost(models.User, models.Post) error
-}
-
 type Forum struct {
 	Host string
 	Name string
 	Port string
 
-	repo Repo
+	repo repo.Forumer
 
 	user *user.User
 }
 
-func New(host, name, port string, repo Repo, user *user.User) *Forum {
+func New(host, name, port string, repo repo.Forumer, user *user.User) *Forum {
 	return &Forum{host, name, port, repo, user}
 }
 
@@ -35,7 +35,6 @@ func (f Forum) Run() {
 	{
 		r.Get("/", f.MainHandler)
 		r.Post("/post", f.CreatePostHandler)
-		r.Post("/user", f.CreateUserHandler)
 	}
 
 	// user
@@ -51,10 +50,4 @@ func (f Forum) Run() {
 
 func (f Forum) CreatePost(u models.User, p models.Post) error {
 	return f.repo.CreatePost(u, p)
-}
-
-func (f Forum) CreateUser(u models.User, p models.Post) {
-	if err := f.repo.CreatePost(u, p); err != nil {
-		log.Fatal(err)
-	}
 }

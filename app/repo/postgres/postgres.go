@@ -24,9 +24,9 @@ func (pg Repo) CreateComment(user models.User, comment models.Comment) error {
 	panic("implement me")
 }
 
-func (pg Repo) CreateUser(name string) error {
+func (pg Repo) CreateUser(user models.User) error {
 	_, err := pg.db.Exec(context.Background(),
-		`INSERT INTO forumless.public."user" (name) VALUES($1)`, name,
+		`INSERT INTO forumless.public."user" (name) VALUES($1)`, user.Name,
 	)
 
 	return err

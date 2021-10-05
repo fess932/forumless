@@ -36,7 +36,3 @@ func (f Forum) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 }
-
-func (f Forum) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
-	f.CreateUser(models.User{}, models.Post{})
-}

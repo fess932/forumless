@@ -1,9 +1,8 @@
 package forum
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
-
-	"github.com/stretchr/testify/require"
 
 	"forumless/app/models"
 	repomock "forumless/app/repo/mock"
@@ -12,11 +11,21 @@ import (
 
 func TestForum_CreatePost(t *testing.T) {
 	repo := &repomock.Iface{}
-	// repo.On("CreatePost", , mock.IsType(models.Post{})).Return(nil)
+
+	// repository mock setup
+	{
+		repo.On("CreatePost", models.User{ID: 1}, models.Post{Text: "kek"}).Return(nil) // ok
+		repo.On("CreatePost", models.User{}, models.Post{Text: "kek"}).Return(models.ErrUserNotFound)
+		repo.On("CreatePost", models.User{ID: 1}, models.Post{}).Return(models.ErrWrongText)
+		repo.On("CreatePost", models.User{}, models.Post{}).Return(models.ErrWrongText)
+	}
+
+	forum := New("", "", "", repo, user.New(repo))
 
 	type args struct {
-		u models.User
-		p models.Post
+		usr  models.User
+		post models.Post
+		err  error
 	}
 
 	tests := []struct {
@@ -25,18 +34,28 @@ func TestForum_CreatePost(t *testing.T) {
 		args args
 	}{
 		{
-			"sample",
-			New("", "", "", repo, user.New(repo)),
-			args{models.User{ID: 1}, models.Post{Author: 1, Text: "kek"}},
+			"ok",
+			forum,
+			args{models.User{ID: 1}, models.Post{Text: "kek"}, nil},
+		},
+		{
+			"wrong user id",
+			forum,
+			args{models.User{}, models.Post{Text: "kek"}, models.ErrUserNotFound},
+		},
+		{
+			"wrong text",
+			forum,
+			args{models.User{}, models.Post{}, models.ErrWrongText},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// repo.On()
-			repo.On("CreatePost", tt.args.u, tt.args.p)
 
-			require.NoError(t, tt.f.CreatePost(tt.args.u, tt.args.p))
+			err := tt.f.CreatePost(tt.args.usr, tt.args.post)
+			assert.ErrorIs(t, tt.args.err, err)
+
 		})
 	}
 }
