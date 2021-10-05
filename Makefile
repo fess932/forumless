@@ -7,7 +7,7 @@ start:
 	go run ./app/main.go
 
 test:
-	
+	go test ./...
 
 migration-create:
 	migrate create -ext sql -dir db/migrations -seq initial
