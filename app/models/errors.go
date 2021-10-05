@@ -8,7 +8,9 @@ func (e Error) Error() string {
 
 const (
 	ErrUserNotFound Error = "user not found"
-	ErrWrongText    Error = "wrong text in text field"
+	ErrPostNotFound Error = "post not found"
+
+	ErrWrongText Error = "wrong text in text field"
 
 	ErrUserExists Error = "user same name already created"
 	ErrUserEmpty  Error = "wrong user name"

@@ -20,7 +20,7 @@ func (pg Repo) CreatePost(user models.User, post models.Post) error {
 	return err
 }
 
-func (pg Repo) CreateComment(user models.User, comment models.Comment) error {
+func (pg Repo) CreateComment(user models.User, post models.Post, comment models.Comment) error {
 	panic("implement me")
 }
 

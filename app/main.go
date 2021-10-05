@@ -1,7 +1,6 @@
 package main
 
 import (
-	"forumless/app/user"
 	"log"
 	"os"
 	"sync"
@@ -11,6 +10,7 @@ import (
 	"forumless/app/config"
 	"forumless/app/forum"
 	"forumless/app/repo/postgres"
+	"forumless/app/user"
 )
 
 func main() {

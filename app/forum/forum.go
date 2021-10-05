@@ -8,10 +8,9 @@ import (
 	"forumless/app/models"
 	"forumless/app/repo"
 	"forumless/app/user"
+	"github.com/go-chi/chi/v5"
 	"log"
 	"net/http"
-
-	"github.com/go-chi/chi/v5"
 )
 
 type Forum struct {
@@ -20,7 +19,6 @@ type Forum struct {
 	Port string
 
 	repo repo.Forumer
-
 	user *user.User
 }
 
@@ -33,6 +31,7 @@ func (f Forum) Run() {
 
 	// forum
 	{
+
 		r.Get("/", f.MainHandler)
 		r.Post("/post", f.CreatePostHandler)
 	}
@@ -50,4 +49,8 @@ func (f Forum) Run() {
 
 func (f Forum) CreatePost(u models.User, p models.Post) error {
 	return f.repo.CreatePost(u, p)
+}
+
+func (f Forum) CreateComment(u models.User, p models.Post, c models.Comment) error {
+	return f.repo.CreateComment(u, p, c)
 }

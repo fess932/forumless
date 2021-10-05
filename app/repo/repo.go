@@ -9,7 +9,7 @@ type Iface interface {
 
 type Forumer interface {
 	CreatePost(user models.User, post models.Post) error
-	CreateComment(user models.User, comment models.Comment) error
+	CreateComment(user models.User, post models.Post, comment models.Comment) error
 }
 
 type Userer interface {

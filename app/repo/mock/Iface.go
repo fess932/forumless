@@ -13,13 +13,13 @@ type Iface struct {
 	mock.Mock
 }
 
-// CreateComment provides a mock function with given fields: user, comment
-func (_m *Iface) CreateComment(user models.User, comment models.Comment) error {
-	ret := _m.Called(user, comment)
+// CreateComment provides a mock function with given fields: user, post, comment
+func (_m *Iface) CreateComment(user models.User, post models.Post, comment models.Comment) error {
+	ret := _m.Called(user, post, comment)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(models.User, models.Comment) error); ok {
-		r0 = rf(user, comment)
+	if rf, ok := ret.Get(0).(func(models.User, models.Post, models.Comment) error); ok {
+		r0 = rf(user, post, comment)
 	} else {
 		r0 = ret.Error(0)
 	}

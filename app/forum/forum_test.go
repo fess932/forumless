@@ -59,3 +59,60 @@ func TestForum_CreatePost(t *testing.T) {
 		})
 	}
 }
+
+func TestForum_CreateComment(t *testing.T) {
+	repo := &repomock.Iface{}
+
+	// repository mock setup
+	{
+		repo.On("CreateComment", models.User{ID: 1}, models.Post{ID: 1}, models.Comment{Text: "com kek"}).Return(nil) // ok
+		repo.On("CreateComment", models.User{ID: 1}, models.Post{ID: 1}, models.Comment{}).Return(models.ErrWrongText)
+		repo.On("CreateComment", models.User{ID: 1}, models.Post{}, models.Comment{Text: "com kek"}).Return(models.ErrPostNotFound)
+		repo.On("CreateComment", models.User{}, models.Post{}, models.Comment{Text: "com kek"}).Return(models.ErrUserNotFound)
+	}
+
+	forum := New("", "", "", repo, user.New(repo))
+
+	type args struct {
+		usr models.User
+		pst models.Post
+		cmm models.Comment
+		err error
+	}
+
+	tests := []struct {
+		name string
+		frm  *Forum
+		args args
+	}{
+		{
+			"ok",
+			forum,
+			args{models.User{ID: 1}, models.Post{ID: 1}, models.Comment{Text: "com kek"}, nil},
+		},
+		{
+			"empty comment",
+			forum,
+			args{models.User{ID: 1}, models.Post{ID: 1}, models.Comment{}, models.ErrWrongText},
+		},
+		{
+			"post emtpy or wrong id",
+			forum,
+			args{models.User{ID: 1}, models.Post{}, models.Comment{Text: "com kek"}, models.ErrPostNotFound},
+		},
+		{
+			"wrong user id",
+			forum,
+			args{models.User{}, models.Post{}, models.Comment{Text: "com kek"}, models.ErrUserNotFound},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			err := tt.frm.CreateComment(tt.args.usr, tt.args.pst, tt.args.cmm)
+			assert.ErrorIs(t, tt.args.err, err)
+
+		})
+	}
+}
