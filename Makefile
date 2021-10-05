@@ -20,3 +20,6 @@ migration-down:
 
 mock:
 	mockery --name=Iface --recursive --output=app/repo/mock
+
+swagger:
+	swag init -d app -g forum/forum.go

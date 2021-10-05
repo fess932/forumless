@@ -5,12 +5,16 @@ package forum
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
+	_ "forumless/docs"
+	"github.com/go-chi/chi/v5"
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"forumless/app/models"
 	"forumless/app/repo"
 	"forumless/app/user"
-	"github.com/go-chi/chi/v5"
-	"log"
-	"net/http"
 )
 
 type Forum struct {
@@ -26,8 +30,25 @@ func New(host, name, port string, repo repo.Forumer, user *user.User) *Forum {
 	return &Forum{host, name, port, repo, user}
 }
 
+// Run ...
+// @title Swagger forumless API
+// @version 1.0
+// @description This is a headless forum
+// @termsOfService http://swagger.io/terms/
+// @contact.name Ivan
+// @contact.url http://t.me/fess932
+// @contact.email fess932@gmail.com
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost
+// @BasePath /v2
 func (f Forum) Run() {
 	r := chi.NewRouter()
+
+	// swagger
+	{
+		r.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL(fmt.Sprintf("http://localhost:%s/swagger/doc.json", f.Port))))
+	}
 
 	// forum
 	{

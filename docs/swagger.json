@@ -1,0 +1,44 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a headless forum",
+        "title": "Swagger forumless API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Ivan",
+            "url": "http://t.me/fess932",
+            "email": "fess932@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost",
+    "basePath": "/v2",
+    "paths": {
+        "/accounts/{id}": {
+            "get": {
+                "description": "create post by user and text",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create post",
+                "operationId": "create-post",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ]
+            }
+        }
+    }
+}

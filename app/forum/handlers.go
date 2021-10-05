@@ -18,6 +18,19 @@ type postReq struct {
 	Text string `json:"text"`
 }
 
+// CreatePostHandler godoc
+// @Summary Create post
+// @Description create post by user and text
+// @ID create-post
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Account ID"
+//#@Success 200 {object} model.Account
+// @Header 200 {string} Token "qwerty"
+//#@Failure 400,404 {object} httputil.HTTPError
+//#@Failure 500 {object} httputil.HTTPError
+//#@Failure default {object} httputil.DefaultError
+// @Router /accounts/{id} [get]
 func (f Forum) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	var p postReq
 

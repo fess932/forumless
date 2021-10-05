@@ -1,0 +1,31 @@
+basePath: /v2
+host: localhost
+info:
+  contact:
+    email: fess932@gmail.com
+    name: Ivan
+    url: http://t.me/fess932
+  description: This is a headless forum
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger forumless API
+  version: "1.0"
+paths:
+  /accounts/{id}:
+    get:
+      consumes:
+      - application/json
+      description: create post by user and text
+      operationId: create-post
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      summary: Create post
+swagger: "2.0"
