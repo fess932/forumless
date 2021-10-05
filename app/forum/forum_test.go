@@ -4,13 +4,12 @@ import (
 	"testing"
 
 	"forumless/app/models"
-	"forumless/app/repo/mock"
-
-	"github.com/golang/mock/gomock"
+	repomock "forumless/app/repo/mock"
+	"forumless/app/user"
 )
 
 func TestForum_CreatePost(t *testing.T) {
-	ctrl := gomock.NewController(t)
+	repo := &repomock.Iface{}
 
 	type args struct {
 		u models.User
@@ -24,7 +23,7 @@ func TestForum_CreatePost(t *testing.T) {
 	}{
 		{
 			"sample",
-			New("", "", "", mock.NewMockRepo(ctrl)),
+			New("", "", "", repo, user.New(repo)),
 			args{models.User{}, models.Post{}},
 		},
 	}

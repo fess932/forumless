@@ -42,7 +42,3 @@ func New(connstr string) *Repo {
 
 	return &Repo{db}
 }
-
-func (pg Repo) GetName() string {
-	return "default name"
-}
