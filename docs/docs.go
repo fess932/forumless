@@ -32,8 +32,30 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/accounts/{id}": {
-            "get": {
+        "/comment": {
+            "post": {
+                "description": "create commet by user and post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create comment",
+                "operationId": "create-comment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/post": {
+            "post": {
                 "description": "create post by user and text",
                 "consumes": [
                     "application/json"
@@ -43,6 +65,28 @@ var doc = `{
                 ],
                 "summary": "Create post",
                 "operationId": "create-post",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/user": {
+            "post": {
+                "description": "create post by user and text",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create user",
+                "operationId": "create-user",
                 "parameters": [
                     {
                         "type": "integer",

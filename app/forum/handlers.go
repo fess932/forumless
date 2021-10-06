@@ -30,8 +30,40 @@ type postReq struct {
 //#@Failure 400,404 {object} httputil.HTTPError
 //#@Failure 500 {object} httputil.HTTPError
 //#@Failure default {object} httputil.DefaultError
-// @Router /accounts/{id} [get]
+// @Router /post [post]
 func (f Forum) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
+	var p postReq
+
+	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Println(p)
+
+	s, err := strconv.Atoi(p.ID)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+
+	if err := f.CreatePost(models.User{ID: s}, models.Post{Text: p.Text}); err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+}
+
+// CreateCommentHandler godoc
+// @Summary Create comment
+// @Description create commet by user and post
+// @ID create-comment
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Account ID"
+//#@Success 200 {object} model.Account
+// @Header 200 {string} Token "qwerty"
+//#@Failure 400,404 {object} httputil.HTTPError
+//#@Failure 500 {object} httputil.HTTPError
+//#@Failure default {object} httputil.DefaultError
+// @Router /comment [post]
+func (f Forum) CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
 	var p postReq
 
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {

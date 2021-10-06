@@ -13,8 +13,23 @@ info:
   title: Swagger forumless API
   version: "1.0"
 paths:
-  /accounts/{id}:
-    get:
+  /comment:
+    post:
+      consumes:
+      - application/json
+      description: create commet by user and post
+      operationId: create-comment
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      summary: Create comment
+  /post:
+    post:
       consumes:
       - application/json
       description: create post by user and text
@@ -28,4 +43,19 @@ paths:
       produces:
       - application/json
       summary: Create post
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: create post by user and text
+      operationId: create-user
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      summary: Create user
 swagger: "2.0"
